@@ -35,7 +35,7 @@ jobs:
       run: |
         kubectl apply --dry-run=client -f secret-opaque.yaml
         kubectl apply --dry-run=client -f k8s/
-      continue-on-error: true
+      continue-on-error: false
 
     - name: Install kubeval
       if: github.event_name == 'pull_request'
@@ -51,7 +51,7 @@ jobs:
         for file in k8s/*.yaml; do
           kubeval $file
         done
-      continue-on-error: true
+      continue-on-error: false
     
     - name: Update secret-opaque.yaml
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
