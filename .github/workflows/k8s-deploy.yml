@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configure AWS Credentials Action For GitHub Actions
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -34,6 +34,7 @@ jobs:
       if: github.event_name == 'pull_request'
       run: |
         kubectl apply --dry-run=client -f secret-opaque.yaml
+        kubectl apply --dry-run=client -f k8s/
       continue-on-error: true
 
     - name: Install kubeval
@@ -47,6 +48,7 @@ jobs:
     - name: Validate Manifests with kubeval
       run: |
         kubeval secret-opaque.yaml
+        kubeval k8s/
       continue-on-error: true
     
     - name: Update secret-opaque.yaml
@@ -62,7 +64,9 @@ jobs:
           }
         commitChange: false
 
-    - name: Create K8s Secret
+    - name: Deploy Kubernetes Manifests
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: kubectl apply -f secret-opaque.yaml
+      run: |
+        kubectl apply -f secret-opaque.yaml
+        kubectl apply -f k8s/
 
