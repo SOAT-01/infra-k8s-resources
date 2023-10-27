@@ -31,23 +31,23 @@ jobs:
       run: kubectl config use-context ${{ secrets.KUBE_CONTEXT }}
     
     - name: Validate Kubernetes Manifests
-        if: github.event_name == 'pull_request'
-        run: |
-          kubectl apply --dry-run=client -f secret-opaque.yaml
-        continue-on-error: true
+      if: github.event_name == 'pull_request'
+      run: |
+        kubectl apply --dry-run=client -f secret-opaque.yaml
+      continue-on-error: true
 
     - name: Install kubeval
-        if: github.event_name == 'pull_request'
-        run: |
-          curl -LO https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
-          tar xf kubeval-linux-amd64.tar.gz
-          sudo mv kubeval /usr/local/bin
-        shell: bash
+      if: github.event_name == 'pull_request'
+      run: |
+        curl -LO https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
+        tar xf kubeval-linux-amd64.tar.gz
+        sudo mv kubeval /usr/local/bin
+      shell: bash
 
     - name: Validate Manifests with kubeval
-        run: |
-          kubeval secret-opaque.yaml
-        continue-on-error: true
+      run: |
+        kubeval secret-opaque.yaml
+      continue-on-error: true
     
     - name: Update secret-opaque.yaml
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
