@@ -46,6 +46,7 @@ jobs:
       shell: bash
 
     - name: Validate Manifests with kubeval
+      if: github.event_name == 'pull_request'
       run: |
         kubeval secret-opaque.yaml
         for file in k8s/*.yaml; do
