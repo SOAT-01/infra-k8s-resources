@@ -48,7 +48,9 @@ jobs:
     - name: Validate Manifests with kubeval
       run: |
         kubeval secret-opaque.yaml
-        kubeval k8s/
+        for file in k8s/*.yaml; do
+          kubeval $file
+        done
       continue-on-error: true
     
     - name: Update secret-opaque.yaml
