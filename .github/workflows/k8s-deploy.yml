@@ -73,3 +73,8 @@ jobs:
         kubectl apply -f secret-opaque.yaml
         kubectl apply -f k8s/
 
+    - name: Describe Kubernetes Load Balancer
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        kubectl describe services app-load-balancer
+
