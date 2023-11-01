@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: app
-          image: deiro1/app-fast-food:latest
-          command: ["sh", "-c", "npm run start"]
+          image: deiro1/app-fast-food-v2:latest
+          command: ["sh", "-c", "npm run generate && npm run migrate && npm run start"]
           ports:
             - containerPort: 6001
           resources:
@@ -36,3 +36,28 @@ spec:
                 secretKeyRef:
                   name: secret-tech
                   key: NODE_ENV
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: POSTGRES_DB
+            - name: POSTGRES_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: POSTGRES_DB_HOST                  
+            - name: POSTGRES_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: POSTGRES_DB_PORT
+            - name: POSTGRES_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: POSTGRES_DB_USER
+            - name: POSTGRES_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: POSTGRES_DB_PASSWORD                  
