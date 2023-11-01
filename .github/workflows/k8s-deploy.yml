@@ -68,7 +68,7 @@ jobs:
             "stringData['POSTGRES_DB_HOST']": "${{ secrets.POSTGRES_DB_HOST }}",
             "stringData['POSTGRES_DB_USER']": "${{ secrets.POSTGRES_DB_USER }}",
             "stringData['POSTGRES_DB_PASSWORD']": "${{ secrets.POSTGRES_DB_PASSWORD }}",
-            "data['POSTGRES_DB_PORT']": "${{ secrets.POSTGRES_DB_PORT }}",
+            "data['POSTGRES_DB_PORT']": "${{ secrets.POSTGRES_DB_PORT }}"
           }
         commitChange: false
 
